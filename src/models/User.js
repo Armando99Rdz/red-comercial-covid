@@ -14,7 +14,7 @@ const userSchema = new Schema({
     trim: true,
     required: 'El apellido es obligatorio',
   },
-  type: { // 1 = ADMIN, 2 = EMPRESA, 3 = USER.
+  type: { // 1 = ADMIN, 2 = VENDEDOR, 3 = USER.
     type: Number,
     min: 1,
     default: 3,

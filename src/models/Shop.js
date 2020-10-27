@@ -68,6 +68,7 @@ const shopSchema = new Schema({
   email: {
     type: String,
     trim: true,
+    unique: true,
     maxlength: 255,
     required: 'El correo electrónico es obligatorio'
   },

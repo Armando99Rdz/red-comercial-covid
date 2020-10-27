@@ -102,7 +102,7 @@ exports.delete = async (req, res, next) => {
   try {
     const user = await User.findByIdAndRemove({ _id: req.body._id });
     res.status(200).json(user);
-  } catch (error) {eli
+  } catch (error) {
     res.status(500).send({
       errors: [error]
     });
