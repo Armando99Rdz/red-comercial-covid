@@ -1,19 +1,19 @@
 ## Red Comercial - COVID
 Backend (API) del proyecto Red Comercial para impulsar la ecnonomía post pandemia.
 
-#### initial setup
+### initial setup
 - `npm install`
 ###### inital config
 Copy `.env.example` file and rename to `.env` then set values of your own dev enviroment.
 
-#### start development server
+### start development server
 - `npm run dev`
 
-#### start production server
+### start production server
 - `npm run build`
 - `npm start`
 
-#### development info
+### development info
 npm installations:
 
 ###### project dependecies
