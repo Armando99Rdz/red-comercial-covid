@@ -1,0 +1,134 @@
+import User from '../models/User';
+
+/**
+ * Show all users
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.index = async (req, res, next) => {
+
+  try {
+    const users = await User.find({});
+    if (!users) {
+      res.status(404).send({
+        errors: ['No se pudieron obtener los registros']
+      });
+    } else {
+      res.status(200).json(users);
+    }
+  } catch (error) {
+    res.status(500).send({
+      errors: [error]
+    });
+  }
+}
+
+
+/**
+ * Save a new user
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+exports.store = async (req, res, next) => {
+
+  try {
+    const user = await User.create(req.body);
+    user.password = await user.encryptPassword(req.body.password);
+    user.save();
+    if (!user) {first
+      res.status(404).send({
+        errors: ['No se pudo guardar el registro']
+      });
+    } else {
+      res.status(200).json(user);
+    }
+  } catch (error) {
+    res.status(500).send({
+      errors: [error]
+    });
+  }
+}
+
+
+exports.show = async (req, res, next) => {
+
+  if (!req.query._id) next();
+  try {
+    const user = await User.findOne({ _id: req.query._id });
+    if (!user){
+      res.status(404).send({
+        errors: ['No se pudo encontrar este usuario']
+      });
+    } else {
+      res.status(200).json(user);
+    }
+  } catch (error) {
+    res.status(500).send({
+      errors: [error]
+    });
+  }
+}
+
+exports.update = async (req, res, next) => {
+  console.log(req.body.addresses);
+  try {
+    const user = await User.findOne({ _id: req.body._id });
+    if (!user) {
+      res.status(404).send({
+        errors: ['No se encontró el usuario']
+      });
+    } else {
+
+      if (req.body.password != user.password)
+        user.password = await user.encryptPassword(req.body.password);
+      user.firstname = req.body.firstname;
+      user.lastname = req.body.lastname;
+      user.imagePath = req.body.imagePath
+      await user.save();
+      res.status(200).json(user);
+    }
+  } catch (error) {
+    res.status(500).send({
+      errors: [error]
+    })
+  }
+}
+
+
+exports.delete = async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndRemove({ _id: req.body._id });
+    res.status(200).json(user);
+  } catch (error) {eli
+    res.status(500).send({
+      errors: [error]
+    });
+  }
+}
+
+exports.updateAddresses = async (req, res, next) => {
+  
+  try {
+    if (!req.body.addresses){
+      res.status(400).send({
+        errors: ['Se esperaba una lista de direcciones']
+      });
+    } else {
+      const user = await User.findById({ _id: req.body._id });
+      if (!user)
+        res.status(404).send({
+          errors: ['Este usuario no existe']
+        });
+      user.addresses = req.body.addresses;
+      user.save();
+      res.status(200).json(user);
+    }
+  } catch (error) {
+    res.status(500).send({
+      errors: [error]
+    });
+  }
+}
