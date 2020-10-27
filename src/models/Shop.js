@@ -88,6 +88,37 @@ const shopSchema = new Schema({
     trim: true,
     maxlength: 10
   },
+  images: [ // multiple images
+    {
+      path: {
+        type: String,
+        maxlength: 255
+      },
+      priority: {
+        type: Number,
+        min: 1,
+        unique: true
+      }
+    }
+  ],
+  categories: [ // categorías de productos y/o servicios.
+    {
+      name: {
+        type: String,
+        minlength: 2,
+        maxlength: 80,
+        unique: true,
+        required: 'El nombre es obligatorio por cada categoría'
+      },
+      description: {
+        type: String,
+        maxlength: 150
+      },
+      url: {
+        type: String
+      }
+    }
+  ]
 
 }, { timestamps: true });
 

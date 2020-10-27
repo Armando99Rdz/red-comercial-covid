@@ -90,6 +90,49 @@ exports.updateAddress = async (req, res, next) => {
   }
 }
 
+exports.updateCategories = async (req, res, next) => {
+  try {
+    const shop = await Shop.findOne({ _id: req.body._id });
+    if (!shop)
+      res.status(404).send({
+        errors: ['Este establecimiento no existe']
+      });
+    else {
+      if (req.body.categories){
+        shop.categories = req.body.categories;
+        await shop.save();
+        res.status(200).json(shop);
+      } else
+        res.status(400).send({
+          errors: ['Se esperaba una lista de categorías']
+        });
+    }
+  } catch (error) {
+    res.status(500).send({
+      errors: [error]
+    });
+  }
+}
+
+exports.updateImages = async (req, res, next) => {
+  try {
+    const shop = await Shop.findOne({ _id: req.body._id });
+    if (!shop)
+      res.status(404).send({
+        errors: ['Este establecimiento no existe']
+      });
+    else {
+      shop.images = req.body.images;
+      await shop.save();
+      res.status(200).json(shop);
+    }
+  } catch (error) {
+    res.status(500).send({
+      errors: [error]
+    });
+  }
+}
+
 exports.changeState = async (req, res, next) => {
   try {
     const shop = await Shop.findOne({ _id: req.body._id });
