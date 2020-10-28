@@ -3,7 +3,16 @@ import Shop from "../models/Shop";
 
 exports.index = async (req, res, next) => {
   try {
-    const categories = await ShopCategory.find({});
+    const q = req.query.q;
+    const categories = await ShopCategory.find(
+      {
+        $or: [
+          { 'name': new RegExp(q, 'i') },
+          { 'url': new RegExp(q, 'i') },
+          { 'description': new RegExp(q, 'i') }
+        ]
+      }
+    ).sort({ 'createdAt': -1 }); // orden descendente.
     res.status(200).json(categories);
   } catch (error) {
     res.status(500).send({

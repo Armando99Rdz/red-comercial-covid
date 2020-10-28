@@ -2,7 +2,18 @@ import Article from "../models/Article";
 
 exports.index = async (req, res, next) => {
   try {
-    const articles = await Article.find({});
+    const q = req.query.q;
+    const articles = await Article.find(
+      {
+        $or: [
+          { 'title': new RegExp(q, 'i') },
+          { 'description': new RegExp(q, 'i') },
+          { 'url': new RegExp(q, 'i') }
+        ]
+      }
+    )
+    .sort({ 'createdAt': -1 }) // orden descendente.
+    .populate('shop', { name: 1, url: 1, categories: 1 });
     res.status(200).json(articles);
   } catch (error) {
     res.status(500).send({
@@ -25,7 +36,8 @@ exports.store = async (req, res, next) => {
 
 exports.show = async (req, res, next) => {
   try {
-    const article = await Article.findOne({ _id: req.query._id});
+    const article = await Article.findOne({ _id: req.query._id})
+      .populate('shop', { name: 1, url: 1, categories: 1 });
     if (!article)
       res.status(404).send({
         errors: ['Este artículo no existe']

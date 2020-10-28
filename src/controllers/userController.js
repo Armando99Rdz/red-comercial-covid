@@ -7,9 +7,18 @@ import User from '../models/User';
  * @param {*} res 
  */
 exports.index = async (req, res, next) => {
-
   try {
-    const users = await User.find({});
+    const q = req.query.q; // string de búsqueda (opcional).
+    const users = await User.find(
+      {
+        $or: [
+          { 'firstname': new RegExp(q, 'i') },
+          { 'lastname': new RegExp(q, 'i') },
+          { 'email': new RegExp(q, 'i') },
+        ]
+      },
+      //{ updatedAt: 0 } no mostrar 0, mostrar 1.
+    ).sort({ 'createdAt': -1 }); // orden descendente (-1)
     if (!users) {
       res.status(404).send({
         errors: ['No se pudieron obtener los registros']

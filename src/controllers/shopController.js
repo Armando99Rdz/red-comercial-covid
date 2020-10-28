@@ -2,7 +2,20 @@ import Shop from "../models/Shop";
 
 exports.index = async (req, res, next) => {
   try {
-    const shops = await Shop.find({});
+    const q = req.query.q;
+    const shops = await Shop.find(
+      {
+        $or: [
+          { 'name': new RegExp(q, 'i') },
+          { 'url': new RegExp(q, 'i') },
+          { 'email': new RegExp(q, 'i') }
+        ]
+      }
+    )
+    .sort({ 'createdAt': -1 })
+    .populate('user', { fistname: 1, lastname: 1, email: 1, createdAt: 1 })
+    .populate('category', { name: 1, url: 1 });
+
     res.status(200).json(shops);
   } catch (error) {
     res.status(500).send({
@@ -26,7 +39,9 @@ exports.store = async (req, res, next) => {
 
 exports.show = async (req, res, next) =>  {
   try {
-    const shop = await Shop.findOne({ _id: req.query._id });
+    const shop = await Shop.findOne({ _id: req.query._id })
+      .populate('user', { fistname: 1, lastname: 1, email: 1, createdAt: 1 })
+      .populate('category', { name: 1, url: 1 });
     if (!shop)
       res.status(404).send({
         errors: ['Este establecimiento no existe']

@@ -10,6 +10,7 @@ const articleSchema = new Schema({
   },
   category: {
     type: Schema.ObjectId,
+    ref: 'shops.categories',
     required: 'La categoría es obligatoria'
   },
   title: {
