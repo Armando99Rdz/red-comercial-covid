@@ -52,7 +52,7 @@ const orderSchema = new Schema({
     minlength: 10, 
     maxlength: 20
   },
-  state: { // COMPLETED, PENDING, CANCELED
+  status: { // COMPLETED, PENDING, CANCELED
     type: String,
     trim: true,
     default: 'PENDING'

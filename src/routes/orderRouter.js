@@ -7,5 +7,8 @@ const router = routerx();
 router.get('/list', orderController.index);
 router.post('/create', orderController.store);
 router.get('/show', orderController.show);
+router.put('/update', orderController.update);
+router.put('/status', orderController.updateStatus);
+router.put('/state', orderController.changeState);
 router.delete('/delete', orderController.delete);
 export default router;
