@@ -122,7 +122,7 @@ const shopSchema = new Schema({
 
 }, { timestamps: true });
 
-shopSchema.pre('save', function() {
+shopSchema.pre('save', function(next) {
   this.url = slug(this.name);
   next();
 });

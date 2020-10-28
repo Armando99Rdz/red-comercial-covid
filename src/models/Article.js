@@ -55,9 +55,9 @@ const articleSchema = new Schema({
 
 }, { timestamps: true });
 
-articleSchema.pre('save', function() {
-  const slug = slug(this.title);
-  this.url = `${slug}-${shortid.generate()}`;
+articleSchema.pre('save', function(next) {
+  const url = slug(this.title);
+  this.url = `${url}-${shortid.generate()}`;
   next();
 });
 
