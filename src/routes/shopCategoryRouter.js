@@ -11,4 +11,5 @@ router.get('/show', shopCategoriesController.show);
 router.put('/update', dataValidation(shopCategorySchema.update), shopCategoriesController.update);
 router.put('/state', shopCategoriesController.changeState);
 router.delete('/delete', shopCategoriesController.delete);
+router.get('/show/:url', shopCategoriesController.showUsingUrl);
 export default router;

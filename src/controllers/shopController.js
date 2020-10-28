@@ -55,6 +55,24 @@ exports.show = async (req, res, next) =>  {
   }
 }
 
+exports.showUsingUrl = async (req, res, next) => {
+  try {
+    const shop = await Shop.findOne({ url: req.params.url })
+      .populate('user', { fistname: 1, lastname: 1, email: 1, createdAt: 1 })
+      .populate('category', { name: 1, url: 1 });
+    if (!shop)
+      res.status(404).send({
+        errors: ['Este establecimiento no existe']
+      });
+    else 
+      res.status(200).json(shop);
+  } catch (error) {
+    res.status(500).send({
+      errors: [error]
+    });
+  }
+}
+
 
 exports.updateBaseInfo = async (req, res, next) => {
   try {

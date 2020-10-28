@@ -51,6 +51,23 @@ exports.show = async (req, res, next) => {
   }
 }
 
+exports.showUsingUrl = async (req, res, next) => {
+  try {
+    const article = await Article.findOne({ url: req.params.url})
+      .populate('shop', { name: 1, url: 1, categories: 1 });
+    if (!article)
+      res.status(404).send({
+        errors: ['Este artículo no existe']
+      });
+    else
+      res.status(200).json(article);
+  } catch (error) {
+    res.status(500).send({
+      errors: [error]
+    });
+  }
+}
+
 
 exports.updateBaseInfo = async (req, res, next) => {
   try {

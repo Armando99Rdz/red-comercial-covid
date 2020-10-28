@@ -49,6 +49,22 @@ exports.show = async (req, res, next) => {
   }
 }
 
+exports.showUsingUrl = async (req, res, next) => {
+  try {
+    const category = await ShopCategory.findOne({ url: req.params.url });
+    if (!category)
+      res.status(404).send({
+        errors: ['La categoría no existe']
+      })
+    else 
+      res.status(200).json(category);
+  } catch (error) {
+    res.status(500).send({
+      errors: [error]
+    });
+  }
+}
+
 exports.update = async (req, res, next) => {
   try {
     const category = await ShopCategory.findOne({ _id: req.body._id });

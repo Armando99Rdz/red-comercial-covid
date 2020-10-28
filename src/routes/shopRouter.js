@@ -14,4 +14,5 @@ router.put('/images', dataValidation(shopSchema.updateImages), shopController.up
 router.put('/categories', dataValidation(shopSchema.updateCategories), shopController.updateCategories);
 router.put('/state', shopController.changeState);
 router.delete('/delete', shopController.delete);
+router.get('/show/:url', shopController.showUsingUrl);
 export default router;
