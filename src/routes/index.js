@@ -3,6 +3,7 @@ import userRouter from './userRouter';
 import shopCategoriesRouter from './shopCategoryRouter';
 import shopsRouter from './shopRouter';
 import articleRouter from "./articleRouter";
+import orderRouter from "./orderRouter";
 
 const router = routerx();
 
@@ -11,5 +12,6 @@ router.use('/users', userRouter);
 router.use('/categories', shopCategoriesRouter);
 router.use('/shops', shopsRouter);
 router.use('/articles', articleRouter);
+router.use('/orders', orderRouter);
 
 export default router;
