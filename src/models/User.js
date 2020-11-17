@@ -82,8 +82,9 @@ userSchema.methods.encryptPassword = async (pass) => {
   return await bcryptjs.hash(pass, salt);
 }
 
-userSchema.methods.matchPassword = async (pass) => {
-  return await bcryptjs.compare(pass, this.password);
+// Compare passwords
+userSchema.methods.matchPassword = async function(password){
+  return await bcryptjs.compare(password, this.password);
 }
 
 const User = mongoose.model('users', userSchema);

@@ -1,4 +1,52 @@
 import User from '../models/User';
+import token from '../helpers/jwt';
+
+exports.login = async (req, res, next) =>{
+  const errors = [];
+  if (!req.body.email)
+    errors.push({ text: 'Ingrese un email válido'});
+  if (!req.body.password)
+    errors.push({ text: 'Ingrese una contraseña válida'});
+
+  if (errors.length > 0){
+    res.status(500).send({
+      errors
+    });
+  }else {
+    try {
+      // busca por el email recibido y sólo usuarios activos (isActive = true).
+      let user = await User.findOne({email: req.body.email, isActive: true});
+      if (!user){
+        errors.push({ text: 'El usuario no existe'});
+        res.status(404).send({
+          errors
+        });
+        next();
+      }else{
+        const match = await user.matchPassword(req.body.password);
+        if (match){
+          // crear JWT
+          let tokenGenerated = await token.encode(user._id);
+          res.status(200).json({user, token: tokenGenerated});
+        }else{
+          errors.push({text: 'La contraseña es incorrecta'});
+          res.status(404).send({
+            errors
+          });
+          next();
+        }
+      }
+
+    } catch (e) {
+      errors.push({ text: 'Ocurrió un al validar las credenciales' });
+      res.status(500).send({
+        errors
+      });
+      next(e);
+    }
+  }
+
+}
 
 /**
  * Show all users

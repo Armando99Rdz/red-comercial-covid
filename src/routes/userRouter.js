@@ -11,4 +11,7 @@ router.get('/show', userController.show);
 router.put('/update', dataValidation(userSchema.update), userController.update);
 router.put('/update/address', userController.updateAddresses);
 router.delete('/delete', userController.delete);
+// auth controllers
+router.post('/login', userController.login);
+
 export default router;
