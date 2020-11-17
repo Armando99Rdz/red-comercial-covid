@@ -42,7 +42,7 @@ export default {
         'secretkeytogeneratetokenfromredcomercialbackend');
       const user = await User.findOne({ _id: _id, isActive: true });
       if (user)
-        return true;
+        return user;
       else 
         return false;
     } catch (error) {

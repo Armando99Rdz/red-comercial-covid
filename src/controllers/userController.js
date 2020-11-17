@@ -13,9 +13,11 @@ exports.login = async (req, res, next) =>{
       errors
     });
   }else {
+    const { email } = req.body;
     try {
       // busca por el email recibido y sólo usuarios activos (isActive = true).
-      let user = await User.findOne({email: req.body.email, isActive: true});
+      const user = await User.findOne({ email: email, isActive: true });
+      console.log(user);
       if (!user){
         errors.push({ text: 'El usuario no existe'});
         res.status(404).send({
@@ -130,7 +132,6 @@ exports.show = async (req, res, next) => {
 }
 
 exports.update = async (req, res, next) => {
-  console.log(req.body.addresses);
   try {
     const user = await User.findOne({ _id: req.body._id });
     if (!user) {
