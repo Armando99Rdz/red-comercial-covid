@@ -22,7 +22,8 @@
     "mongoose": "^5.10.10",
     "morgan": "^1.10.0",
     "shortid": "^2.2.16",
-    "slug": "^4.0.1"
+    "slug": "^4.0.1",
+    "stripe": "^8.121.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
